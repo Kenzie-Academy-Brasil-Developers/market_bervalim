@@ -1,11 +1,12 @@
 import express from "express";
+import { createProduct } from "./logics";
 
 const app = express();
 
 app.use(express.json());
 
 // Criar e adicionar o produto
-app.post("/products");
+app.post("/products", createProduct);
 
 // Listar todos os produtos:
 app.get("/products");
