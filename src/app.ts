@@ -1,5 +1,10 @@
 import express from "express";
-import { createProduct, getAllProducts, getOneProductById } from "./logics";
+import {
+  createProduct,
+  deleteProductById,
+  getAllProducts,
+  getOneProductById,
+} from "./logics";
 import { isProductIdValid, isProductNameUnique } from "./middlewares";
 
 const app = express();
@@ -19,7 +24,7 @@ app.get("/products/:id", isProductIdValid, getOneProductById);
 app.patch("/products/:id", isProductIdValid, isProductNameUnique);
 
 // Deletar o produto a partir do id:
-app.delete("/products/:id", isProductIdValid);
+app.delete("/products/:id", isProductIdValid, deleteProductById);
 
 const PORT = 3000;
 

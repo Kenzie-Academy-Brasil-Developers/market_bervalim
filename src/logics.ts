@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { market } from "./database";
-import { Product } from "./interfaces";
 
 let id = 1;
 export const createProduct = (req: Request, res: Response) => {
@@ -30,4 +29,12 @@ export const getOneProductById = (req: Request, res: Response) => {
     (product) => product.id === Number(req.params.id)
   );
   return res.status(200).json(oneProduct);
+};
+
+export const deleteProductById = (req: Request, res: Response) => {
+  const index = market.findIndex(
+    (product) => product.id === Number(req.params.id)
+  );
+  market.splice(index, 1);
+  return res.status(204).send();
 };
