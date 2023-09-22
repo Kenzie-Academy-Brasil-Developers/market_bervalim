@@ -6,22 +6,19 @@ import {
   getOneProductById,
   updatePartialProduct,
 } from "./logics";
-import { isProductIdValid, isProductNameUnique } from "./middlewares";
+import { isProductNameUnique } from "./middlewares/isProductNameUnique";
+import { isProductIdValid } from "./middlewares/isProductIdValid";
 
 const app = express();
 
 app.use(express.json());
 
-// Criar e adicionar o produto
 app.post("/products", isProductNameUnique, createProduct);
 
-// Listar todos os produtos:
 app.get("/products", getAllProducts);
 
-// Listar um produto específico a partir de seu id:
 app.get("/products/:id", isProductIdValid, getOneProductById);
 
-// Atualizar os dados a partir do id
 app.patch(
   "/products/:id",
   isProductIdValid,
@@ -29,7 +26,6 @@ app.patch(
   updatePartialProduct
 );
 
-// Deletar o produto a partir do id:
 app.delete("/products/:id", isProductIdValid, deleteProductById);
 
 const PORT = 3000;
