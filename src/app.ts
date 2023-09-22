@@ -4,6 +4,7 @@ import {
   deleteProductById,
   getAllProducts,
   getOneProductById,
+  updatePartialProduct,
 } from "./logics";
 import { isProductIdValid, isProductNameUnique } from "./middlewares";
 
@@ -21,7 +22,12 @@ app.get("/products", getAllProducts);
 app.get("/products/:id", isProductIdValid, getOneProductById);
 
 // Atualizar os dados a partir do id
-app.patch("/products/:id", isProductIdValid, isProductNameUnique);
+app.patch(
+  "/products/:id",
+  isProductIdValid,
+  isProductNameUnique,
+  updatePartialProduct
+);
 
 // Deletar o produto a partir do id:
 app.delete("/products/:id", isProductIdValid, deleteProductById);
