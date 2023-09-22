@@ -33,31 +33,41 @@ export const getOneProductById = (req: Request, res: Response) => {
 };
 
 export const updatePartialProduct = (req: Request, res: Response) => {
-  const oneProduct = market.find(
+  const product = market.find(
     (product) => product.id === Number(req.params.id)
   );
 
-  let productBody: Partial<Product> = {};
+  let updateDataProduct: Partial<Omit<Product, "id" | "expirationDate">> = {};
 
-  Object.entries(req.body).forEach((entries) => {
-    const [key, value] = entries;
-
+  Object.entries(req.body).forEach(([key, value]) => {
     if (
       key === "name" ||
       key === "price" ||
       key === "weight" ||
-      key === "calories"
+      key === "calories" ||
+      key === "section"
     ) {
-      productBody[key] = value;
+      (updateDataProduct as any)[key] = value;
     }
   });
-  const newProduct = { ...oneProduct, ...productBody };
+
+  const currentDate = new Date();
+
+  currentDate.setFullYear(currentDate.getFullYear() + 1);
+
+  const newProduct = {
+    ...product,
+    ...updateDataProduct,
+    expirationDate: currentDate,
+  } as Product;
+
   const index = market.findIndex(
     (product) => product.id === Number(req.params.id)
   );
-  market.splice(index, 1, newProduct as Product);
 
-  return res.status(200).json(newProduct);
+  market.splice(index, 1, newProduct);
+
+  res.status(200).json(newProduct);
 };
 
 export const deleteProductById = (req: Request, res: Response) => {
