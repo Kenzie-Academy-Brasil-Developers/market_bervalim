@@ -1,24 +1,25 @@
 import express from "express";
-import { createProduct } from "./logics";
+import { createProduct, getAllProducts, getOneProductById } from "./logics";
+import { isProductIdValid, isProductNameUnique } from "./middlewares";
 
 const app = express();
 
 app.use(express.json());
 
 // Criar e adicionar o produto
-app.post("/products", createProduct);
+app.post("/products", isProductNameUnique, createProduct);
 
 // Listar todos os produtos:
-app.get("/products");
+app.get("/products", getAllProducts);
 
 // Listar um produto específico a partir de seu id:
-app.get("/products/:id");
+app.get("/products/:id", isProductIdValid, getOneProductById);
 
 // Atualizar os dados a partir do id
-app.patch("/products/:id");
+app.patch("/products/:id", isProductIdValid, isProductNameUnique);
 
 // Deletar o produto a partir do id:
-app.delete("/products/:id");
+app.delete("/products/:id", isProductIdValid);
 
 const PORT = 3000;
 

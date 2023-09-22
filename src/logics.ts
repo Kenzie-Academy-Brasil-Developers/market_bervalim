@@ -8,7 +8,7 @@ export const createProduct = (req: Request, res: Response) => {
 
   currentDate.setFullYear(currentDate.getFullYear() + 1);
 
-  const newProduct: Product = {
+  const newProduct = {
     id: id,
     ...req.body,
     expirationDate: currentDate,
@@ -18,4 +18,16 @@ export const createProduct = (req: Request, res: Response) => {
   market.push(newProduct);
 
   return res.status(201).json(newProduct);
+};
+
+export const getAllProducts = (req: Request, res: Response) => {
+  const total = market.reduce((acc, product) => acc + product.price, 0);
+  return res.status(200).json({ total: total, products: market });
+};
+
+export const getOneProductById = (req: Request, res: Response) => {
+  const oneProduct = market.find(
+    (product) => product.id === Number(req.params.id)
+  );
+  return res.status(200).json(oneProduct);
 };
