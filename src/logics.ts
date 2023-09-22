@@ -8,7 +8,7 @@ export const createProduct = (req: Request, res: Response) => {
 
   currentDate.setFullYear(currentDate.getFullYear() + 1);
 
-  const newProduct = {
+  const newProduct: Product = {
     id: id,
     ...req.body,
     expirationDate: currentDate,
